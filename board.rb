@@ -1,4 +1,9 @@
 require_relative 'piece'
+require_relative 'rook'
+require_relative 'knight'
+require_relative 'bishop'
+require_relative 'queen'
+require_relative 'king'
 require_relative 'move_error'
 require_relative 'null_piece'
 require_relative 'pawn'
@@ -30,22 +35,22 @@ class Board
         pos = [i, j]
         case pos.first
         when 1, 6
-          grid[pos.first].map! { Pawn.new(self, pos) } # Pawns
+          self[pos] = Pawn.new(self, pos) # Pawns
         when 0, 7
           case j
           when 0, 7
-            self[pos] = Pawn.new(self, pos) # Rooks
+            self[pos] = Rook.new(self, pos) # Rooks
           when 1, 6
-            self[pos] = Pawn.new(self, pos) # Knights
+            self[pos] = Knight.new(self, pos) # Knights
           when 2, 5
-            self[pos] = Pawn.new(self, pos) # Bishops
+            self[pos] = Bishop.new(self, pos) # Bishops
           when 3
-            self[pos] = Pawn.new(self, pos) # Kings
+            self[pos] = King.new(self, pos) # Kings
           when 4
-            self[pos] = Pawn.new(self, pos) # Queens
+            self[pos] = Queen.new(self, pos) # Queens
           end
         else
-          grid[pos.first].map! { NullPiece.instance } # Nulls
+          self[pos] = NullPiece.instance # Nulls
         end
       end
     end

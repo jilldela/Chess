@@ -13,18 +13,23 @@ class Display
 
   def render
     system "clear"
-    @board.grid.each do |row|
-      strings = row.map do |piece|
-        # debugger
-        if piece.position == @cursor.cursor_pos
-          piece.to_s.on_red.blink
+    @board.grid.each_with_index do |row, i|
+      strings = []
+      row.each_with_index do |col, j|
+        pos = [i, j]
+        piece = @board[pos]
+        if pos == @cursor.cursor_pos
+          strings << piece.to_s.on_red.blink
+        elsif i.even? == j.even?
+          strings << piece.to_s.on_white
         else
-          piece.to_s
+          strings << piece.to_s.on_blue
         end
       end
-      puts strings.join(" ")
+      puts strings.join
     end
 
   end
+
 
 end
