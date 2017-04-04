@@ -1,5 +1,7 @@
 require_relative 'piece'
 require_relative 'move_error'
+require_relative 'null_piece'
+require_relative 'pawn'
 require 'byebug'
 
 class Board
@@ -8,6 +10,7 @@ class Board
   def initialize
     @grid = Array.new(8) { Array.new(8) }
     @grid = set_board
+    # @null_piece = NullPiece.instance
   end
 
   def [](pos)
@@ -21,10 +24,30 @@ class Board
   end
 
   def set_board
-    starting_rows = [0, 1, 6, 7]
 
-    starting_rows.each do |row|
-      grid[row] = grid[row].map { Piece.new }
+    grid.each_with_index do |row, i|
+      row.each_with_index do |col, j|
+        pos = [i, j]
+        case pos.first
+        when 1, 6
+          grid[pos.first].map! { Pawn.new(self, pos) } # Pawns
+        when 0, 7
+          case j
+          when 0, 7
+            self[pos] = Pawn.new(self, pos) # Rooks
+          when 1, 6
+            self[pos] = Pawn.new(self, pos) # Knights
+          when 2, 5
+            self[pos] = Pawn.new(self, pos) # Bishops
+          when 3
+            self[pos] = Pawn.new(self, pos) # Kings
+          when 4
+            self[pos] = Pawn.new(self, pos) # Queens
+          end
+        else
+          grid[pos.first].map! { NullPiece.instance } # Nulls
+        end
+      end
     end
 
     grid
@@ -35,14 +58,14 @@ class Board
       raise MoveError.new("Invalid move")
     else
       self[end_pos] = self[start_pos]
-      self[start_pos] = nil
+      self[start_pos] = NullPiece.instance
     end
   end
 
   def valid_move?(start_pos, end_pos)
     return false unless in_board?(start_pos) && in_board?(end_pos)
-    return false unless self[end_pos].nil?
-    return false if self[start_pos].nil?
+    return false unless self[end_pos] == NullPiece.instance
+    return false if self[start_pos] == NullPiece.instance
     true
   end
 

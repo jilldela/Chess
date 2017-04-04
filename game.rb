@@ -4,6 +4,8 @@ require_relative 'cursor'
 
 class Game
 
+  attr_reader :board
+
   def initialize
     @board = Board.new
     @display = Display.new(@board)
