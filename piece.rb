@@ -1,6 +1,10 @@
+require_relative 'slideable'
+require_relative 'stepable'
+
 class Piece
 
-  attr_reader :position
+  attr_reader :color
+  attr_accessor :position
 
   def initialize(board, position)
     @board = board
@@ -22,6 +26,9 @@ class Piece
 
   end
 
+  def move_into_check
+
+  end
 
 
 end

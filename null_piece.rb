@@ -8,4 +8,8 @@ class NullPiece < Piece
     @symbol = "   "
   end
 
+  def moves
+    []
+  end
+
 end

@@ -19,3 +19,7 @@ class Game
   end
 
 end
+
+b = Board.new
+d = Display.new(b)
+d.render
