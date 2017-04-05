@@ -11,17 +11,10 @@ module SteppingPiece
     new_moves
   end
 
+  protected
+  
   def move_diffs
 
   end
 
-end
-
-def horizontal_dirs
-  new_moves = []
-  HORIZONTAL_DELTAS.each do |delta|
-    new_moves += grow_unblocked_moves_in_dir(*delta)
-  end
-
-  new_moves
 end

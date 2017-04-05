@@ -21,6 +21,8 @@ module SlidingPiece
     new_moves
   end
 
+  protected
+  
   def move_dirs
 
   end

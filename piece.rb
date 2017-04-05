@@ -22,12 +22,22 @@ class Piece
     @symbol
   end
 
-  def moves
-
+  def valid_moves
+    potential_moves = moves
+    potential_moves.select do |move|
+      move_into_check?(move) == false
+    end
   end
 
-  def move_into_check
+  private
 
+  def move_into_check?(end_pos)
+    start_pos = @position
+    old_piece = @board[end_pos]
+    @board.move_piece(@position, end_pos)
+    result = @board.in_check?(@color)
+    @board.undo(start_pos, end_pos, old_piece)
+    result
   end
 
 

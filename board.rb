@@ -98,4 +98,10 @@ class Board
     false
   end
 
+  def undo(start_pos, end_pos, old_piece)
+    self[end_pos] = old_piece
+    self[start_pos] = self[end_pos]
+    self[start_pos].position = start_pos
+  end
+
 end
